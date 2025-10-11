@@ -1,0 +1,103 @@
+@import '../../responsive.scss';
+
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 100px;
+
+  a {
+    transition: all 0.4s ease;
+    color: black;
+
+    @include sm {
+      display: none;
+    }
+
+    &:hover {
+      scale: 1.05;
+      color: black;
+    }
+  }
+
+  .left {
+    flex: 3;
+    display: flex;
+    align-items: center;
+    gap: 50px;
+
+    .logo {
+      font-weight: bold;
+      font-size: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: black;
+    }
+
+    img {
+      width: 28px;
+    }
+
+    span {
+      @include md {
+        display: none;
+      }
+    }
+  }
+
+  .right {
+    flex: 2;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    background-color: #fcf5f3;
+    height: 100%;
+
+    a {
+      padding: 12px 24px;
+      margin: 20px;
+    }
+
+    .register {
+      background-color: #fece51;
+    }
+
+    .menuIcon {
+      display: none;
+      z-index: 999;
+
+      img {
+        width: 36px;
+        cursor: pointer;
+      }
+
+      @include sm {
+        display: inline;
+      }
+    }
+
+    .menu {
+      position: absolute;
+      top: 0;
+      right: 0;
+      background-color: black;
+      color: white;
+      height: 100vh;
+      width: 50%;
+      display: flex;
+      flex-direction: column;
+      justify-items: center;
+      align-items: center;
+      font-size: 24px;
+      padding-top: 100px;
+
+      @include sm {
+        a {
+          display: initial;
+          color: white;
+        }
+      }
+    }
+  }
+}
