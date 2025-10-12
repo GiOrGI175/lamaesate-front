@@ -31,7 +31,7 @@ export const HomePage = () => {
         </div>
       </div>
       <div className='imgContainer'>
-        <img src='/bg.png' alt='bg-img' /> img
+        <img src='/bg.png' alt='bg-img' />
       </div>
     </div>
   );

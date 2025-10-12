@@ -31,7 +31,6 @@ const Navbar = () => {
           <motion.a
             key={link.label}
             href={link.href}
-            style={{ display: 'block' }}
             initial={{ opacity: 0, x: -12 }}
             animate={{
               opacity: 1,
