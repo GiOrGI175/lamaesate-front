@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import './navbar.scss';
 import { AnimatePresence, motion, spring } from 'framer-motion';
+import { Link } from 'react-router-dom';
+import { tr } from 'motion/react-client';
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
@@ -10,9 +12,9 @@ const Navbar = () => {
     { href: '/', label: 'About' },
     { href: '/', label: 'Contact' },
     { href: '/', label: 'Agents' },
-    { href: '/', label: 'Sing in' },
-    { href: '/', label: 'Sing up' },
   ];
+
+  const user = true;
 
   return (
     <nav>
@@ -27,7 +29,7 @@ const Navbar = () => {
           <img src='/logo.png' alt='logo' />
           <span>LamaEstate</span>
         </motion.a>
-        {links.slice(0, -2).map((link, index) => (
+        {links.map((link, index) => (
           <motion.a
             key={link.label}
             href={link.href}
@@ -51,10 +53,26 @@ const Navbar = () => {
         ))}
       </div>
       <div className='right'>
-        <a href='/'>Sing in</a>
-        <a href='/' className='register'>
-          Sing up
-        </a>
+        {user ? (
+          <div className='user'>
+            <img
+              src='https://images.pexels.com/photos/91227/pexels-photo-91227.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'
+              alt='user icon'
+            />
+            <span>john doe</span>
+            <Link to='/profile' className='profile'>
+              <div className='notification'>3</div>
+              <span>Profile</span>
+            </Link>
+          </div>
+        ) : (
+          <>
+            <a href='/'>Sing in</a>
+            <a href='/' className='register'>
+              Sing up
+            </a>
+          </>
+        )}
         <div className='menuIcon' onClick={() => setOpen((pv) => !pv)}>
           <img src='/menu.png' alt='menu' />
         </div>
