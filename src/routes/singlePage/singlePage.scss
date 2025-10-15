@@ -3,9 +3,9 @@
 .singlePage {
   display: flex;
   height: 100%;
-  overflow: scroll;
 
   @include md {
+    overflow: scroll;
     flex-direction: column;
     -ms-overflow-style: none;
     scrollbar-width: none;
