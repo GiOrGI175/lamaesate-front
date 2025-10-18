@@ -1,6 +1,12 @@
+@import '../../responsive.scss';
+
 .card {
   display: flex;
   gap: 20px;
+
+  @include sm {
+    flex-direction: column;
+  }
 
   .imageContianer {
     flex: 2;
@@ -11,6 +17,10 @@
       height: 100%;
       object-fit: cover;
       border-radius: 10px;
+
+      @include sm {
+        height: 200px;
+      }
     }
   }
 
