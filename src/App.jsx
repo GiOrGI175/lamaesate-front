@@ -4,8 +4,6 @@ import { HomePage } from './routes/home/HomePage';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import ListPage from './routes/listPage/ListPage';
 import Layout from './routes/layout/Layout';
-import Layout from './routes/layout/Layout';
-
 import SinglePage from './routes/singlePage/SinglePage';
 import ProfilePage from './routes/profilePage/ProfilePage';
 import Login from './routes/login/Login';
@@ -31,10 +29,6 @@ function App() {
           element: <SinglePage />,
         },
         {
-          path: '/profile',
-          element: <ProfilePage />,
-        },
-        {
           path: '/login',
           element: <Login />,
         },
@@ -47,6 +41,12 @@ function App() {
     {
       path: '/',
       element: <RequireAuth />,
+      children: [
+        {
+          path: '/profile',
+          element: <ProfilePage />,
+        },
+      ],
     },
   ]);
 

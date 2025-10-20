@@ -3,19 +3,13 @@ import Chat from '../../components/chat/Chat';
 import List from '../../components/list/List';
 import apiRequest from '../../utils/apiRequest';
 import './profilePage.scss';
-import { useContext, useEffect } from 'react';
+import { useContext } from 'react';
 import { AuthContext } from '../../context/AuthContext';
 
 const ProfilePage = () => {
   const { curentUser, updateUser } = useContext(AuthContext);
 
   const navigate = useNavigate();
-
-  useEffect(() => {
-    if (!curentUser) {
-      navigate('/login');
-    }
-  }, [curentUser, navigate]);
 
   const handleLogout = async () => {
     try {
@@ -28,48 +22,46 @@ const ProfilePage = () => {
   };
 
   return (
-    curentUser && (
-      <div className='profilePage'>
-        <div className='details'>
-          <div className='wrapper'>
-            <div className='title'>
-              <h1>User Information</h1>
-              <button>Update Profile</button>
-            </div>
-            <div className='info'>
-              <span>
-                Avatar:
-                <img
-                  src={curentUser.avatar || '/noavatar.webp'}
-                  alt='user icon'
-                />
-              </span>
-              <span>
-                Username: <b>{curentUser.username}</b>
-              </span>
-              <span>
-                Email: <b>{curentUser.email}</b>
-              </span>
-              <button onClick={handleLogout}>Logout</button>
-            </div>
-            <div className='title'>
-              <h1>My List</h1>
-              <button>Create New Post</button>
-            </div>
-            <List />
-            <div className='title'>
-              <h1>Saved List</h1>
-            </div>
-            <List />
+    <div className='profilePage'>
+      <div className='details'>
+        <div className='wrapper'>
+          <div className='title'>
+            <h1>User Information</h1>
+            <button>Update Profile</button>
           </div>
-        </div>
-        <div className='chatContainer'>
-          <div className='wrapper'>
-            <Chat />
+          <div className='info'>
+            <span>
+              Avatar:
+              <img
+                src={curentUser.avatar || '/noavatar.webp'}
+                alt='user icon'
+              />
+            </span>
+            <span>
+              Username: <b>{curentUser.username}</b>
+            </span>
+            <span>
+              Email: <b>{curentUser.email}</b>
+            </span>
+            <button onClick={handleLogout}>Logout</button>
           </div>
+          <div className='title'>
+            <h1>My List</h1>
+            <button>Create New Post</button>
+          </div>
+          <List />
+          <div className='title'>
+            <h1>Saved List</h1>
+          </div>
+          <List />
         </div>
       </div>
-    )
+      <div className='chatContainer'>
+        <div className='wrapper'>
+          <Chat />
+        </div>
+      </div>
+    </div>
   );
 };
 
