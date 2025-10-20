@@ -1,11 +1,14 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import './navbar.scss';
 import { AnimatePresence, motion, spring } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { tr } from 'motion/react-client';
+import { AuthContext } from '../../context/AuthContext';
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
+
+  const { curentUser } = useContext(AuthContext);
 
   const links = [
     { href: '/', label: 'Home' },
@@ -53,25 +56,22 @@ const Navbar = () => {
         ))}
       </div>
       <div className='right'>
-        {user ? (
+        {curentUser ? (
           <div className='user'>
-            <img
-              src='https://images.pexels.com/photos/91227/pexels-photo-91227.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'
-              alt='user icon'
-            />
-            <span>john doe</span>
+            <img src={curentUser.avatar || '/noavatar.webp'} alt='user icon' />
+            <span>{curentUser.username}</span>
             <Link to='/profile' className='profile'>
               <div className='notification'>3</div>
               <span>Profile</span>
             </Link>
           </div>
         ) : (
-          <>
-            <a href='/'>Sing in</a>
-            <a href='/' className='register'>
+          <div className='right'>
+            <a href='/login'>Sing in</a>
+            <a href='/register' className='register'>
               Sing up
             </a>
-          </>
+          </div>
         )}
         <div className='menuIcon' onClick={() => setOpen((pv) => !pv)}>
           <img src='/menu.png' alt='menu' />
