@@ -1,19 +1,69 @@
+import { useState } from 'react';
 import './newPostPage.scss';
+import apiRequest from '../../utils/apiRequest';
+import UploadWidget from '../../components/uploadWidget/UploadWidget';
+import { useNavigate } from 'react-router-dom';
 
 const NewPostPage = () => {
+  const [error, setError] = useState('');
+  const [images, setImages] = useState([]);
+
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+
+    const inputs = Object.fromEntries(formData);
+
+    console.log(inputs);
+
+    try {
+      const res = await apiRequest.post('/posts', {
+        postData: {
+          title: inputs.title,
+          price: parseInt(inputs.price),
+          address: inputs.address,
+          city: inputs.city,
+          bedroom: parseInt(inputs.bedroom),
+          bathroom: parseInt(inputs.bathroom),
+          type: inputs.type,
+          property: inputs.property,
+          latitude: inputs.latitude,
+          longitude: inputs.longitude,
+          images: images,
+        },
+        postDetail: {
+          desc: inputs.desc,
+          utilities: inputs.utilities,
+          pet: inputs.pet,
+          size: parseInt(inputs.size),
+          school: parseInt(inputs.school),
+          bus: parseInt(inputs.bus),
+          restaurant: parseInt(inputs.restaurant),
+        },
+      });
+      console.log(res.data);
+      navigate('/' + res.data.id);
+    } catch (error) {
+      console.log(error);
+      setError(error);
+    }
+  };
+
   return (
     <div className='newPostPage'>
       <div className='formContainer'>
         <h1>Add New Post</h1>
         <div className='wrapper'>
-          <form>
+          <form onSubmit={handleSubmit}>
             <div className='item'>
               <label htmlFor='title'>Title</label>
               <input id='title' name='title' type='text' />
             </div>
             <div className='item'>
               <label htmlFor='price'>Price</label>
-              <input id='price' name='price' type='number' />
+              <input id='price' min={0} name='price' type='number' />
             </div>
             <div className='item'>
               <label htmlFor='address'>Address</label>
@@ -21,6 +71,7 @@ const NewPostPage = () => {
             </div>
             <div className='item description'>
               <label htmlFor='desc'>Description</label>
+              <input id='desc' name='desc' type='text' />
             </div>
             <div className='item'>
               <label htmlFor='city'>City</label>
@@ -101,10 +152,24 @@ const NewPostPage = () => {
               <input min={0} id='restaurant' name='restaurant' type='number' />
             </div>
             <button className='sendButton'>Add</button>
+            {error && <span>{error.message}</span>}
           </form>
         </div>
       </div>
-      <div className='sideContainer'></div>
+      <div className='sideContainer'>
+        {images.map((image, idx) => (
+          <img src={image} key={idx} alt='uploadedimg' />
+        ))}
+        <UploadWidget
+          uwConfig={{
+            cloudName: 'dxewwqd0p',
+            uploadPreset: 'estate',
+            multiple: true,
+            folder: 'posts',
+          }}
+          setState={setImages}
+        />
+      </div>
     </div>
   );
 };

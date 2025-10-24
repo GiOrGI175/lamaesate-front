@@ -36,7 +36,13 @@
 
           &.description {
             width: 100%;
-            height: 320px;
+            // height: 320px;
+
+            input {
+              padding: 20px;
+              border-radius: 5px;
+              border: 1px solid gray;
+            }
 
             .quill > .ql-container > .ql-editor {
               height: 200px;

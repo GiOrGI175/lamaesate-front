@@ -9,7 +9,7 @@ const ProfileUpdatePage = () => {
   const { curentUser, updateUser } = useContext(AuthContext);
 
   const [error, setError] = useState('');
-  const [avatar, setAvatar] = useState(curentUser.avatar);
+  const [avatar, setAvatar] = useState([]);
 
   const navigate = useNavigate();
 
@@ -25,7 +25,7 @@ const ProfileUpdatePage = () => {
         username,
         email,
         password,
-        avatar,
+        avatar: avatar[0],
       });
       console.log(res.data);
       updateUser(res.data);
@@ -69,7 +69,7 @@ const ProfileUpdatePage = () => {
       </div>
       <div className='sideContainer'>
         <img
-          src={avatar || '/noavatar.webp'}
+          src={avatar[0] || curentUser.avatar || '/noavatar.webp'}
           alt='avatar icon'
           className='avatar'
         />
@@ -81,7 +81,7 @@ const ProfileUpdatePage = () => {
             maxImageFileSize: 2000000,
             folder: 'avatars',
           }}
-          setAvatar={setAvatar}
+          setState={setAvatar}
         />
       </div>
     </div>
