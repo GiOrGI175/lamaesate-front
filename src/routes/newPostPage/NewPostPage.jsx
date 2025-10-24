@@ -33,9 +33,9 @@ const NewPostPage = () => {
           longitude: inputs.longitude,
           images: images,
         },
-        postDetail: {
+        postDetails: {
           desc: inputs.desc,
-          utilities: inputs.utilities,
+          ustilites: inputs.utilities,
           pet: inputs.pet,
           size: parseInt(inputs.size),
           school: parseInt(inputs.school),

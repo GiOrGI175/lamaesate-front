@@ -5,9 +5,13 @@ import Pin from '../pin/Pin';
 const Map = ({ items }) => {
   const position = [51.505, -0.09];
 
+  console.log(items, 'map');
+
   return (
     <MapContainer
-      center={position}
+      center={
+        items.length === 1 ? [items[0].latitude, items[0].longitude] : position
+      }
       zoom={7}
       scrollWheelZoom={false}
       className='map'
