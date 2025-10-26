@@ -1,12 +1,16 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { Await, Link, useLoaderData, useNavigate } from 'react-router-dom';
 import Chat from '../../components/chat/Chat';
 import List from '../../components/list/List';
 import apiRequest from '../../utils/apiRequest';
 import './profilePage.scss';
-import { useContext } from 'react';
+import { Suspense, useContext } from 'react';
 import { AuthContext } from '../../context/AuthContext';
 
 const ProfilePage = () => {
+  const { postResponse } = useLoaderData();
+
+  console.log(postResponse, 'postResponse');
+
   const { curentUser, updateUser } = useContext(AuthContext);
 
   const navigate = useNavigate();
@@ -53,11 +57,45 @@ const ProfilePage = () => {
               <button>Create New Post</button>
             </Link>
           </div>
-          <List />
+          <Suspense
+            fallback={
+              <div className='loadingContainer'>
+                <p>Loading...</p>
+              </div>
+            }
+          >
+            <Await
+              resolve={postResponse}
+              errorElement={<p>Error loading posts!</p>}
+            >
+              {(resolved) => {
+                const data = resolved?.data ?? resolved;
+
+                return <List posts={data.userPosts} />;
+              }}
+            </Await>
+          </Suspense>
           <div className='title'>
             <h1>Saved List</h1>
           </div>
-          <List />
+          <Suspense
+            fallback={
+              <div className='loadingContainer'>
+                <p>Loading...</p>
+              </div>
+            }
+          >
+            <Await
+              resolve={postResponse}
+              errorElement={<p>Error loading posts!</p>}
+            >
+              {(resolved) => {
+                const data = resolved?.data ?? resolved;
+
+                return <List posts={data.savedPosts} />;
+              }}
+            </Await>
+          </Suspense>
         </div>
       </div>
       <div className='chatContainer'>

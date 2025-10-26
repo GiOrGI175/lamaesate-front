@@ -11,7 +11,13 @@ const ListPage = () => {
   const { postResponse } = useLoaderData();
 
   return (
-    <Suspense fallback={<p>Loading...</p>}>
+    <Suspense
+      fallback={
+        <div className='loadingContainer'>
+          <p>Loading...</p>
+        </div>
+      }
+    >
       <Await resolve={postResponse} errorElement={<p>Error loading posts!</p>}>
         {(resolved) => {
           const posts = resolved?.data ?? resolved;

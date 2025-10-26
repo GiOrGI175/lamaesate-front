@@ -22,3 +22,14 @@
     background-color: #fcf5f3;
   }
 }
+
+.loadingContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+
+  p {
+    font-size: 100px;
+  }
+}
