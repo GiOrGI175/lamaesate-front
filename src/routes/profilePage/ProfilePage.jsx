@@ -7,7 +7,7 @@ import { Suspense, useContext } from 'react';
 import { AuthContext } from '../../context/AuthContext';
 
 const ProfilePage = () => {
-  const { postResponse } = useLoaderData();
+  const { postResponse, chatResponse } = useLoaderData();
 
   console.log(postResponse, 'postResponse');
 
@@ -100,7 +100,25 @@ const ProfilePage = () => {
       </div>
       <div className='chatContainer'>
         <div className='wrapper'>
-          <Chat />
+          <Suspense
+            fallback={
+              <div className='loadingContainer'>
+                <p>Loading...</p>
+              </div>
+            }
+          >
+            <Await
+              resolve={chatResponse}
+              errorElement={<p>Error loading chats!</p>}
+            >
+              {(resolved) => {
+                const data = resolved?.data ?? resolved;
+                console.log(data, 'data');
+
+                return <Chat chats={data} />;
+              }}
+            </Await>
+          </Suspense>
         </div>
       </div>
     </div>
