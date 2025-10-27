@@ -3,11 +3,13 @@ import './chat.scss';
 import { AuthContext } from '../../context/AuthContext';
 import apiRequest from '../../utils/apiRequest';
 import { format } from 'timeago.js';
+import { SocketContext } from '../../context/SocketContext';
 
 const Chat = ({ chats }) => {
   const [chat, setChat] = useState(null);
 
   const { curentUser } = useContext(AuthContext);
+  const { socket } = useContext(SocketContext);
 
   const handleOpenChat = async (id, receiver) => {
     try {
@@ -20,9 +22,58 @@ const Chat = ({ chats }) => {
     }
   };
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const formData = new FormData(e.target);
+    const text = formData.get('text');
+
+    if (!text) return;
+    try {
+      const res = await apiRequest.post('/messages/' + chat.id, { text });
+
+      setChat((pv) => ({ ...pv, messages: [...pv.messages, res.data] }));
+
+      e.target.reset();
+
+      socket.emit('sendMessage', {
+        receiverId: chat.receiver.id,
+        data: res.data,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
-    console.log(chat, 'setChat');
-  }, [chat, setChat]);
+    if (!chat || !socket) return;
+
+    const read = async () => {
+      try {
+        await apiRequest.put('/chats/read/' + chat.id);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
+    const handleGetMessage = (data) => {
+      console.log('Received message:', data);
+
+      if (chat.id === data.chatId) {
+        setChat((prev) => ({
+          ...prev,
+          messages: [...prev.messages, data],
+        }));
+        read();
+      }
+    };
+
+    socket.on('getMessage', handleGetMessage);
+
+    return () => {
+      socket.off('getMessage', handleGetMessage);
+    };
+  }, [socket, chat]);
 
   return (
     <div className='chat'>
@@ -58,13 +109,12 @@ const Chat = ({ chats }) => {
               />
               {chat?.receiver?.username}
             </div>
-            <span className='close' onClick={() => setChat(false)}>
+            <span className='close' onClick={() => setChat(null)}>
               X
             </span>
           </div>
           <div className='center'>
             {chat?.messages.map((item) => {
-              console.log(item, 'item');
               return (
                 <div
                   className='chatMessage'
@@ -80,16 +130,11 @@ const Chat = ({ chats }) => {
                 </div>
               );
             })}
-
-            {/* <div className='chatMessage own'>
-              <p>Lorem ipsum dolor sit amet consectetur</p>
-              <span>1 hour ago</span>
-            </div> */}
           </div>
-          <div className='bottom'>
-            <textarea></textarea>
+          <form onSubmit={handleSubmit} className='bottom'>
+            <textarea name='text'></textarea>
             <button>Send</button>
-          </div>
+          </form>
         </div>
       )}
     </div>
