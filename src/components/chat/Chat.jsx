@@ -4,6 +4,7 @@ import { AuthContext } from '../../context/AuthContext';
 import apiRequest from '../../utils/apiRequest';
 import { format } from 'timeago.js';
 import { SocketContext } from '../../context/SocketContext';
+import { useNotifactionSore } from '../../lib/notificationSore';
 
 const Chat = ({ chats }) => {
   const [chat, setChat] = useState(null);
@@ -13,6 +14,8 @@ const Chat = ({ chats }) => {
 
   const messageEndRef = useRef();
 
+  const decrease = useNotifactionSore((state) => state.decrease);
+
   useEffect(() => {
     messageEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [chat]);
@@ -21,6 +24,10 @@ const Chat = ({ chats }) => {
     try {
       const res = await apiRequest('/chats/' + id);
       console.log(res.data, 'res.data');
+
+      if (res.data.seenBy.includes(curentUser.id)) {
+        decrease();
+      }
 
       setChat({ ...res.data, receiver });
     } catch (error) {

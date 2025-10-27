@@ -4,11 +4,17 @@ import { AnimatePresence, motion, spring } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { tr } from 'motion/react-client';
 import { AuthContext } from '../../context/AuthContext';
+import { useNotifactionSore } from '../../lib/notificationSore';
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
 
   const { curentUser } = useContext(AuthContext);
+
+  const fetch = useNotifactionSore((state) => state.fetch);
+  const number = useNotifactionSore((state) => state.number);
+
+  fetch();
 
   const links = [
     { href: '/', label: 'Home' },
@@ -61,7 +67,7 @@ const Navbar = () => {
             <img src={curentUser.avatar || '/noavatar.webp'} alt='user icon' />
             <span>{curentUser.username}</span>
             <Link to='/profile' className='profile'>
-              <div className='notification'>3</div>
+              {number > 0 && <div className='notification'>{number}</div>}
               <span>Profile</span>
             </Link>
           </div>
