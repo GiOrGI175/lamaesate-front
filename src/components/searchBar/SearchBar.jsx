@@ -1,8 +1,25 @@
 import { useState } from 'react';
 import './searchBar.scss';
 import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
 
 const types = ['buy', 'rent'];
+
+const searchVariants = {
+  hidden: {
+    opacity: 0,
+    y: 100,
+  },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 1.5,
+      type: 'spring',
+      stiffness: 120,
+    },
+  },
+};
 
 function SearchBar() {
   const [query, setQuery] = useState({
@@ -21,7 +38,12 @@ function SearchBar() {
   };
 
   return (
-    <div className='searchBar'>
+    <motion.div
+      variants={searchVariants}
+      initial='hidden'
+      animate='visible'
+      className='searchBar'
+    >
       <div className='type'>
         {types.map((type) => (
           <button
@@ -64,7 +86,7 @@ function SearchBar() {
           </button>
         </Link>
       </form>
-    </div>
+    </motion.div>
   );
 }
 

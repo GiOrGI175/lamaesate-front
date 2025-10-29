@@ -1,0 +1,9 @@
+@import '../../responsive.scss';
+
+.title {
+  font-size: 64px;
+
+  @include lg {
+    font-size: 48px;
+  }
+}
