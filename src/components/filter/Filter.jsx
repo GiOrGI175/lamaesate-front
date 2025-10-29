@@ -1,6 +1,7 @@
 import { useSearchParams } from 'react-router-dom';
 import './filter.scss';
 import { useState } from 'react';
+import { animate, motion } from 'framer-motion';
 
 const Filter = () => {
   const [searchParams, setSerchParams] = useSearchParams();
@@ -25,7 +26,12 @@ const Filter = () => {
   };
 
   return (
-    <div className='filter'>
+    <motion.div
+      initial={{ opacity: 0, y: -100 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 1.5, type: 'spring', stiffness: 120 }}
+      className='filter'
+    >
       <h1>
         Search reults for <b>{searchParams.get('city')}</b>
       </h1>
@@ -102,7 +108,7 @@ const Filter = () => {
           <img src='/search.png' alt='search' />
         </button>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

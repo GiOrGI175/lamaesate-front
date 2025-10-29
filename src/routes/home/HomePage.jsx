@@ -4,14 +4,14 @@ import './homePage.scss';
 import { AuthContext } from '../../context/AuthContext';
 import BlurIn from '../../components/blur/BlurIn';
 import StaggeredFade from '../../components/StaggeredFade/StaggeredFade';
-import { motion, Variants } from 'framer-motion';
+import { motion } from 'framer-motion';
 
 export const HomePage = () => {
   const { curentUser } = useContext(AuthContext);
 
   console.log(curentUser);
 
-  const imageVariants: Variants = {
+  const imageVariants = {
     hidden: {
       scale: 0.8,
     },
@@ -19,8 +19,8 @@ export const HomePage = () => {
       scale: 1,
       transition: {
         duration: 1.5,
-        repeat: 2, // უსასრულოდ
-        repeatType: 'reverse', // უკან-წინ
+        repeat: 2,
+        repeatType: 'reverse',
         type: 'spring',
         stiffness: 120,
         damping: 12,
@@ -28,7 +28,7 @@ export const HomePage = () => {
     },
   };
 
-  const boxVariants: Variants = {
+  const boxVariants = {
     hidden: {
       opacity: 0,
       y: 100,

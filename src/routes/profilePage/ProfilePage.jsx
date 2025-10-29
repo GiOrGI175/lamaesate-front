@@ -5,6 +5,8 @@ import apiRequest from '../../utils/apiRequest';
 import './profilePage.scss';
 import { Suspense, useContext } from 'react';
 import { AuthContext } from '../../context/AuthContext';
+import Loader from '../../components/loader/Loader';
+import { motion } from 'framer-motion';
 
 const ProfilePage = () => {
   const { postResponse, chatResponse } = useLoaderData();
@@ -28,7 +30,12 @@ const ProfilePage = () => {
   return (
     <div className='profilePage'>
       <div className='details'>
-        <div className='wrapper'>
+        <motion.div
+          initial={{ opacity: 0, y: -100 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1.5, type: 'spring', stiffness: 120 }}
+          className='wrapper'
+        >
           <div className='title'>
             <h1>User Information</h1>
             <Link to='/profile/update'>
@@ -57,13 +64,7 @@ const ProfilePage = () => {
               <button>Create New Post</button>
             </Link>
           </div>
-          <Suspense
-            fallback={
-              <div className='loadingContainer'>
-                <p>Loading...</p>
-              </div>
-            }
-          >
+          <Suspense fallback={<Loader />}>
             <Await
               resolve={postResponse}
               errorElement={<p>Error loading posts!</p>}
@@ -78,13 +79,7 @@ const ProfilePage = () => {
           <div className='title'>
             <h1>Saved List</h1>
           </div>
-          <Suspense
-            fallback={
-              <div className='loadingContainer'>
-                <p>Loading...</p>
-              </div>
-            }
-          >
+          <Suspense fallback={<Loader />}>
             <Await
               resolve={postResponse}
               errorElement={<p>Error loading posts!</p>}
@@ -96,17 +91,11 @@ const ProfilePage = () => {
               }}
             </Await>
           </Suspense>
-        </div>
+        </motion.div>
       </div>
       <div className='chatContainer'>
         <div className='wrapper'>
-          <Suspense
-            fallback={
-              <div className='loadingContainer'>
-                <p>Loading...</p>
-              </div>
-            }
-          >
+          <Suspense fallback={<Loader />}>
             <Await
               resolve={chatResponse}
               errorElement={<p>Error loading chats!</p>}
