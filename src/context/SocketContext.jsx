@@ -10,7 +10,7 @@ export const SocketContextProvider = ({ children }) => {
   const [socket, setSocket] = useState(null);
 
   useEffect(() => {
-    setSocket(io('http://localhost:8800'));
+    setSocket(io('https://lamaesate-back.onrender.com'));
   }, []);
 
   useEffect(() => {
