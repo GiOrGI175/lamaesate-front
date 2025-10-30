@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const apiRequest = axios.create({
-  baseURL: 'https://lamaesate-back.onrender.com/api',
+  baseURL: 'https://lamaestate-back.onrender.com/api',
   withCredentials: true,
 });
 
