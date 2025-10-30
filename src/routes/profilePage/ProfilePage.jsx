@@ -11,8 +11,8 @@ import { motion } from 'framer-motion';
 const ProfilePage = () => {
   const { postResponse, chatResponse } = useLoaderData();
 
-  console.log(postResponse, 'postResponse');
-  console.log(chatResponse, 'chatResponse');
+  console.log(postResponse.data, 'postResponse');
+  console.log(chatResponse.data, 'chatResponse');
 
   const { curentUser, updateUser } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -67,14 +67,12 @@ const ProfilePage = () => {
             </Link>
           </div>
 
-          {/* ✅ Suspense + Await ზუსტად როგორც ListPage-ზე */}
           <Suspense fallback={<Loader />}>
             <Await
               resolve={postResponse}
               errorElement={<p>Error loading posts!</p>}
             >
               {(resolved) => {
-                // ✅ resolved არის response object
                 const data = resolved?.data ?? resolved;
                 console.log('Posts data:', data);
 
