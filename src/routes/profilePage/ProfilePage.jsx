@@ -10,11 +10,7 @@ import { motion } from 'framer-motion';
 
 const ProfilePage = () => {
   const { postResponse, chatResponse } = useLoaderData();
-
-  console.log(postResponse, 'postResponse');
-
   const { curentUser, updateUser } = useContext(AuthContext);
-
   const navigate = useNavigate();
 
   const handleLogout = async () => {
@@ -23,7 +19,7 @@ const ProfilePage = () => {
       updateUser(null);
       navigate('/');
     } catch (error) {
-      console.log(error);
+      console.error('Logout error:', error);
     }
   };
 
@@ -42,6 +38,7 @@ const ProfilePage = () => {
               <button>Update Profile</button>
             </Link>
           </div>
+
           <div className='info'>
             <span>
               Avatar:
@@ -58,41 +55,49 @@ const ProfilePage = () => {
             </span>
             <button onClick={handleLogout}>Logout</button>
           </div>
+
           <div className='title'>
             <h1>My List</h1>
             <Link to='/add'>
               <button>Create New Post</button>
             </Link>
           </div>
+
+          {/* ✅ Suspense + Await ზუსტად როგორც ListPage-ზე */}
           <Suspense fallback={<Loader />}>
             <Await
               resolve={postResponse}
               errorElement={<p>Error loading posts!</p>}
             >
               {(resolved) => {
+                // ✅ resolved არის response object
                 const data = resolved?.data ?? resolved;
+                console.log('Posts data:', data);
 
-                return <List posts={data.userPosts} />;
+                return <List posts={data?.userPosts || []} />;
               }}
             </Await>
           </Suspense>
+
           <div className='title'>
             <h1>Saved List</h1>
           </div>
+
           <Suspense fallback={<Loader />}>
             <Await
               resolve={postResponse}
-              errorElement={<p>Error loading posts!</p>}
+              errorElement={<p>Error loading saved posts!</p>}
             >
               {(resolved) => {
                 const data = resolved?.data ?? resolved;
 
-                return <List posts={data.savedPosts} />;
+                return <List posts={data?.savedPosts || []} />;
               }}
             </Await>
           </Suspense>
         </motion.div>
       </div>
+
       <div className='chatContainer'>
         <div className='wrapper'>
           <Suspense fallback={<Loader />}>
@@ -102,9 +107,9 @@ const ProfilePage = () => {
             >
               {(resolved) => {
                 const data = resolved?.data ?? resolved;
-                console.log(data, 'data');
+                console.log('Chat data:', data);
 
-                return <Chat chats={data} />;
+                return <Chat chats={data || []} />;
               }}
             </Await>
           </Suspense>
