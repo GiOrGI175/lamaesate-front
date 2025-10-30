@@ -73,10 +73,10 @@ const Navbar = () => {
           </div>
         ) : (
           <div className='right'>
-            <a href='/login'>Sing in</a>
-            <a href='/register' className='register'>
+            <Link to='/login'>Sing in</Link>
+            <Link to='/register' className='register'>
               Sing up
-            </a>
+            </Link>
           </div>
         )}
         <div className='menuIcon' onClick={() => setOpen((pv) => !pv)}>
