@@ -10,6 +10,10 @@ import { motion } from 'framer-motion';
 
 const ProfilePage = () => {
   const { postResponse, chatResponse } = useLoaderData();
+
+  console.log(postResponse, 'postResponse');
+  console.log(chatResponse, 'chatResponse');
+
   const { curentUser, updateUser } = useContext(AuthContext);
   const navigate = useNavigate();
 
