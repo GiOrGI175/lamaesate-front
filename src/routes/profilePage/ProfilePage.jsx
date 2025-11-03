@@ -7,6 +7,7 @@ import { Suspense, useContext } from 'react';
 import { AuthContext } from '../../context/AuthContext';
 import Loader from '../../components/loader/Loader';
 import { motion } from 'framer-motion';
+import { useTokenStore } from '../../lib/tokenStore';
 
 const ProfilePage = () => {
   const { postResponse, chatResponse } = useLoaderData();
@@ -15,12 +16,16 @@ const ProfilePage = () => {
   console.log(chatResponse.data, 'chatResponse');
 
   const { curentUser, updateUser } = useContext(AuthContext);
+
+  const clearToken = useTokenStore((state) => state.clearToken);
+
   const navigate = useNavigate();
 
   const handleLogout = async () => {
     try {
       await apiRequest.post('/auth/logout');
       updateUser(null);
+      clearToken();
       navigate('/');
     } catch (error) {
       console.error('Logout error:', error);

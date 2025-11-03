@@ -3,12 +3,15 @@ import './login.scss';
 import { Link, useNavigate } from 'react-router-dom';
 import apiRequest from '../../utils/apiRequest';
 import { AuthContext } from '../../context/AuthContext';
+import { useTokenStore } from '../../lib/tokenStore';
 
 const Login = () => {
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
   const { updateUser } = useContext(AuthContext);
+
+  const setToken = useTokenStore((state) => state.setToken);
 
   const navigate = useNavigate();
 
@@ -28,7 +31,8 @@ const Login = () => {
         password,
       });
 
-      updateUser(res.data);
+      updateUser(res.data.user);
+      setToken(res.data.token);
 
       navigate('/');
     } catch (error) {
