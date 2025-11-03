@@ -3,6 +3,7 @@
 .homePage {
   display: flex;
   height: 100dvh;
+  padding-bottom: 50px;
 
   @include md {
     overflow: scroll;
