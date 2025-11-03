@@ -14,17 +14,13 @@
   .textContainer {
     flex: 3;
 
-    @include md {
-      height: 100dvh;
-    }
-
     .wrapper {
       padding-right: 100px;
       display: flex;
       flex-direction: column;
       justify-content: center;
       gap: 50px;
-      height: 100dvh;
+      height: 100%zz;
 
       @include md {
         padding: 0;
