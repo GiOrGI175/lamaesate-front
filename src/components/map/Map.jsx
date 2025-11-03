@@ -3,7 +3,7 @@ import './map.scss';
 import Pin from '../pin/Pin';
 
 const Map = ({ items }) => {
-  const position = [51.505, -0.09];
+  const position = [41.705407, 44.782212];
 
   console.log(items, 'map');
 
