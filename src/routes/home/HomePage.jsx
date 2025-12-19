@@ -50,7 +50,19 @@ export const HomePage = () => {
       <main className='MainSection'>
         <div className='textContainer'>
           <div className='wrapper'>
-            <BlurIn title='Find Real Estate & Get your Dream Place' />
+            <div className='mainTitle'>
+              <BlurIn title='Find Real Estate & Get your Dream Place' />
+            </div>
+            <div className='imgContainerMB'>
+              <motion.img
+                src='/bg.png'
+                alt='bg-img'
+                variants={imageVariants}
+                initial='hidden'
+                animate='visible'
+              />
+            </div>
+
             <StaggeredFade
               text='Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos
             explicabo suscipit cum eius, iure est nulla animi consequatur

@@ -13,6 +13,11 @@
     height: 100px;
     display: flex;
     // border: 1px solid black;
+
+    @include md {
+      display: none;
+    }
+
     .box1 {
       flex: 2;
     }
@@ -26,6 +31,9 @@
 
   .MainContent {
     display: flex;
+    @include md {
+      flex-direction: column;
+    }
 
     .achievementsContainer {
       flex: 4;
@@ -94,6 +102,11 @@
       .content {
         transform: rotate(-90deg);
 
+        @include md {
+          transform: rotate(-0deg);
+          padding: 50px 20px;
+        }
+
         display: flex;
         flex-direction: column;
 
@@ -101,6 +114,10 @@
           display: flex;
           justify-content: center;
           align-items: center;
+
+          @include md {
+            margin-bottom: 20px;
+          }
         }
 
         display: flex;
