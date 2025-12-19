@@ -6,8 +6,12 @@ import BlurIn from '../../components/blur/BlurIn';
 import StaggeredFade from '../../components/StaggeredFade/StaggeredFade';
 import { motion } from 'framer-motion';
 import Achievements from '../../components/achievements/Achievements';
+import Properties from '../../components/properties/Properties';
+import { useLoaderData } from 'react-router-dom';
 
 export const HomePage = () => {
+  const { postResponse } = useLoaderData();
+
   const { curentUser } = useContext(AuthContext);
 
   console.log(curentUser);
@@ -102,6 +106,7 @@ export const HomePage = () => {
         </div>
       </main>
       <Achievements />
+      <Properties postResponse={postResponse} />
     </div>
   );
 };
