@@ -1,9 +1,17 @@
 import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
 
-export const useTokenStore = create((set) => ({
-  token: '',
+export const useTokenStore = create(
+  persist(
+    (set) => ({
+      token: '',
 
-  setToken: (newToken) => set({ token: newToken }),
+      setToken: (token) => set({ token }),
 
-  clearToken: () => set({ token: '' }),
-}));
+      clearToken: () => set({ token: '' }),
+    }),
+    {
+      name: 'auth-token',
+    }
+  )
+);
