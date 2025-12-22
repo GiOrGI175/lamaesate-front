@@ -2,7 +2,9 @@ import axios from 'axios';
 import { useTokenStore } from '../lib/tokenStore';
 
 const apiRequest = axios.create({
-  baseURL: 'https://lamaesate-back.onrender.com/api/',
+  // baseURL: 'https://lamaesate-back.onrender.com/api/',
+  baseURL: 'http://localhost:8800/api/',
+
   withCredentials: true,
 });
 
@@ -12,6 +14,8 @@ apiRequest.interceptors.request.use((config) => {
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
+
+  console.log({ token });
 
   return config;
 });

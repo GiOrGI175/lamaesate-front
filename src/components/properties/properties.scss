@@ -1,0 +1,42 @@
+section {
+  position: relative;
+  margin-top: 80px;
+  position: relative;
+  margin-top: 80px;
+  background: linear-gradient(
+    -60deg,
+    #f9f9f9 0%,
+    #deeac8 20%,
+    #f9ffef 40%,
+    #f9f9f9 60%,
+    #deeac8 80%,
+    #f9f9f9 100%
+  );
+
+  .SectionTitle {
+    font-size: 20px;
+  }
+
+  .heading {
+    font-size: 50px;
+    margin-bottom: 32px;
+  }
+  .mySwiper {
+    height: fit-content;
+  }
+
+  .settings {
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+
+    .info {
+      font-size: 18px;
+
+      .showingInfo {
+        font-weight: 500;
+        opacity: 50%;
+      }
+    }
+  }
+}

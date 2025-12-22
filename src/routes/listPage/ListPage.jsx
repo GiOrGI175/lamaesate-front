@@ -11,6 +11,8 @@ import { motion, useInView } from 'framer-motion';
 const ListPage = () => {
   const { postResponse } = useLoaderData();
 
+  console.log({ postResponse });
+
   return (
     <Suspense fallback={<Loader />}>
       <Await resolve={postResponse} errorElement={<p>Error loading posts!</p>}>
@@ -22,19 +24,24 @@ const ListPage = () => {
               <div className='listContainer'>
                 <div className='wrapper'>
                   <Filter />
-                  {posts.map((item, index) => (
-                    <motion.div
-                      key={item.id}
-                      initial={{ opacity: 0, y: 50 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{
-                        duration: 0.5,
-                        delay: index * 0.1,
-                      }}
-                    >
-                      <Card item={item} />
-                    </motion.div>
-                  ))}
+
+                  {posts.length === 0 ? (
+                    <div>no results</div>
+                  ) : (
+                    posts.map((item, index) => (
+                      <motion.div
+                        key={item.id}
+                        initial={{ opacity: 0, y: 50 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{
+                          duration: 0.5,
+                          delay: index * 0.1,
+                        }}
+                      >
+                        <Card item={item} />
+                      </motion.div>
+                    ))
+                  )}
                 </div>
               </div>
               <div className='mapContainer'>

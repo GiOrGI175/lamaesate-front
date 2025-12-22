@@ -2,80 +2,134 @@
 
 .homePage {
   display: flex;
-  height: 100%;
+  flex-direction: column;
+  // height: 100%;
+  overflow-y: auto;
 
-  @include md {
-    overflow: scroll;
-    flex-direction: column;
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-  }
-
-  .textContainer {
-    flex: 3;
-
-    .wrapper {
-      padding-right: 100px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      gap: 50px;
-      height: 100%zz;
-
-      @include md {
-        padding: 0;
-      }
-
-      @include sm {
-        justify-content: flex-start;
-      }
-
-      .title {
-        font-size: 64px;
-
-        @include lg {
-          font-size: 48px;
-        }
-      }
-
-      .boxes {
-        display: flex;
-        justify-content: space-between;
-
-        @include sm {
-          display: none;
-        }
-
-        h1 {
-          font-size: 36px;
-        }
-
-        h2 {
-          font-size: 20px;
-          font-weight: 300;
-        }
-      }
-    }
-  }
-
-  .imgContainer {
-    flex: 2;
-    background-color: #fcf5f3;
-    position: relative;
+  .MainSection {
     display: flex;
-    align-items: center;
+
+    @include xl {
+      min-height: calc(100vh - 100px);
+    }
 
     @include md {
-      display: none;
+      min-height: fit-content;
+      margin-bottom: 100px;
     }
 
-    img {
-      width: 115%;
-      position: absolute;
-      right: 0;
+    @include sm {
+      margin-bottom: 220px;
+    }
 
-      @include lg {
-        width: 105%;
+    .textContainer {
+      flex: 3;
+      display: flex;
+
+      .wrapper {
+        padding-right: 100px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 50px;
+        height: 100%;
+
+        @include md {
+          padding: 0;
+        }
+
+        @include sm {
+          justify-content: flex-start;
+          gap: 10px;
+        }
+        .mainTitle {
+          display: flex;
+          justify-content: center;
+          div {
+            @include sm {
+              width: 300px;
+            }
+            h1 {
+              @include sm {
+                font-size: 30px;
+              }
+
+              @include md {
+                text-align: center;
+              }
+            }
+          }
+        }
+
+        .imgContainerMB {
+          background-color: #fcf5f3;
+          // position: relative;
+          display: flex;
+          align-items: center;
+          display: none;
+
+          @include md {
+            display: block;
+          }
+
+          img {
+            width: 115%;
+            // position: absolute;
+            right: 0;
+
+            @include lg {
+              width: 105%;
+            }
+          }
+        }
+
+        .title {
+          font-size: 64px;
+
+          @include lg {
+            font-size: 48px;
+          }
+        }
+
+        .boxes {
+          display: flex;
+          justify-content: space-between;
+
+          @include sm {
+            display: none;
+          }
+
+          h1 {
+            font-size: 36px;
+          }
+
+          h2 {
+            font-size: 20px;
+            font-weight: 300;
+          }
+        }
+      }
+    }
+
+    .imgContainer {
+      flex: 2;
+      background-color: #fcf5f3;
+      position: relative;
+      display: flex;
+      align-items: center;
+
+      @include md {
+        display: none;
+      }
+
+      img {
+        width: 115%;
+        position: absolute;
+        right: 0;
+
+        @include lg {
+          width: 105%;
+        }
       }
     }
   }

@@ -1,7 +1,7 @@
 @import '../../responsive.scss';
 
 .layout {
-  height: 100vh;
+  // height: 100vh;
   max-width: 1266px;
   margin-left: auto;
   margin-right: auto;
@@ -11,21 +11,21 @@
   flex-direction: column;
 
   @include lg {
-    // background-color: purple;
     max-width: 1280px;
   }
+
   @include md {
-    // background-color: yellow;
     max-width: 768px;
   }
+
   @include sm {
-    // background-color: red;
     max-width: 640px;
   }
 
   .content {
     // background-color: rebeccapurple;
     // flex: 1;
-    height: calc(100vh - 100px);
+    // height: calc(100vh - 100px);
+    height: fit-content;
   }
 }

@@ -13,6 +13,7 @@ import ProfileUpdatePage from './routes/profileUpdatePage/ProfileUpdatePage';
 import NewPostPage from './routes/newPostPage/NewPostPage';
 import {
   listPageLoader,
+  PostsLoader,
   profilePageLoader,
   singlePageLoader,
 } from './utils/loader';
@@ -26,6 +27,7 @@ function App() {
         {
           path: '/',
           element: <HomePage />,
+          loader: PostsLoader,
         },
         {
           path: '/list',

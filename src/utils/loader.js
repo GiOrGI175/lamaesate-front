@@ -14,6 +14,14 @@ export const listPageLoader = async ({ request, params }) => {
   return { postResponse: postPromise };
 };
 
+export const PostsLoader = async ({ request, params }) => {
+  const query = request.url.split('?')[1];
+
+  const postPromise = apiRequest('/posts?' + query);
+
+  return { postResponse: postPromise };
+};
+
 export const profilePageLoader = async () => {
   const postPromise = apiRequest('/users/profilePosts');
   const chatPromise = apiRequest('/chats');

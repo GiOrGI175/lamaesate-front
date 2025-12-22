@@ -1,6 +1,10 @@
 @import '../../responsive.scss';
 
 .searchBar {
+  @include sm {
+    margin-top: 30px;
+  }
+
   .type {
     button {
       padding: 16px 36px;
