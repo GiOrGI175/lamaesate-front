@@ -23,6 +23,13 @@ export const PostsLoader = async ({ request, params }) => {
 };
 
 export const profilePageLoader = async () => {
+  if (!token) {
+    return {
+      postResponse: null,
+      chatResponse: null,
+    };
+  }
+
   const postPromise = apiRequest('/users/profilePosts');
   const chatPromise = apiRequest('/chats');
 
