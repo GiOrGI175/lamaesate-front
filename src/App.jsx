@@ -24,33 +24,14 @@ function App() {
       path: '/',
       element: <Layout />,
       children: [
-        {
-          path: '/',
-          element: <HomePage />,
-          loader: PostsLoader,
-        },
-        {
-          path: '/list',
-          element: <ListPage />,
-          loader: listPageLoader,
-        },
-        {
-          path: '/:id',
-          element: <SinglePage />,
-          loader: singlePageLoader,
-        },
-        {
-          path: '/login',
-          element: <Login />,
-        },
-        {
-          path: '/register',
-          element: <Register />,
-        },
+        { index: true, element: <HomePage />, loader: PostsLoader },
+        { path: 'list', element: <ListPage />, loader: listPageLoader },
+        { path: ':id', element: <SinglePage />, loader: singlePageLoader },
+        { path: 'login', element: <Login /> },
+        { path: 'register', element: <Register /> },
       ],
     },
     {
-      path: '/',
       element: <RequireAuth />,
       children: [
         {
@@ -58,14 +39,8 @@ function App() {
           element: <ProfilePage />,
           loader: profilePageLoader,
         },
-        {
-          path: '/profile/update',
-          element: <ProfileUpdatePage />,
-        },
-        {
-          path: '/add',
-          element: <NewPostPage />,
-        },
+        { path: '/profile/update', element: <ProfileUpdatePage /> },
+        { path: '/add', element: <NewPostPage /> },
       ],
     },
   ]);
