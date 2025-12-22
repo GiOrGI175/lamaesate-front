@@ -23,30 +23,32 @@ export const PostsLoader = async ({ request, params }) => {
 };
 
 export const profilePageLoader = async () => {
+  const token = useTokenStore.getState().token;
+
   if (!token) {
     return {
-      postResponse: null,
-      chatResponse: null,
+      postResponse: { data: { userPosts: [], savedPosts: [] } },
+      chatResponse: { data: [] },
     };
   }
 
-  const postPromise = apiRequest('/users/profilePosts');
-  const chatPromise = apiRequest('/chats');
-
   try {
-    const postResult = await postPromise;
-    const chatResult = await chatPromise;
+    const [postResult, chatResult] = await Promise.all([
+      apiRequest('/users/profilePosts'),
+      apiRequest('/chats'),
+    ]);
 
-    console.log('POST RESULT:', postResult);
-    console.log('POST DATA:', postResult.data);
-    console.log('CHAT RESULT:', chatResult);
-    console.log('CHAT DATA:', chatResult.data);
+    return {
+      postResponse: postResult,
+      chatResponse: chatResult,
+    };
   } catch (error) {
     console.error('LOADER ERROR:', error);
-  }
 
-  return {
-    postResponse: postPromise,
-    chatResponse: chatPromise,
-  };
+    if (error.response?.status === 401) {
+      useTokenStore.getState().clearToken();
+    }
+
+    throw error;
+  }
 };

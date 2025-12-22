@@ -8,16 +8,19 @@ const apiRequest = axios.create({
   // withCredentials: true,
 });
 
-apiRequest.interceptors.request.use((config) => {
-  const token = useTokenStore.getState().token;
+apiRequest.interceptors.request.use(
+  (config) => {
+    const token = useTokenStore.getState().token;
 
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
   }
-
-  console.log({ token });
-
-  return config;
-});
+);
 
 export default apiRequest;
