@@ -1,29 +1,31 @@
 import apiRequest from './apiRequest';
+import { getStoredToken } from '../lib/tokenStore';
 
-export const singlePageLoader = async ({ request, params }) => {
-  const res = await apiRequest('/posts/' + params.id);
-
+export const singlePageLoader = async ({ params }) => {
+  const res = await apiRequest.get('/posts/' + params.id);
   return res.data;
 };
 
-export const listPageLoader = async ({ request, params }) => {
-  const query = request.url.split('?')[1];
-
-  const postPromise = apiRequest('/posts?' + query);
-
-  return { postResponse: postPromise };
+export const listPageLoader = async ({ request }) => {
+  const query = request.url.split('?')[1] || '';
+  const postResponse = await apiRequest.get('/posts?' + query);
+  return { postResponse };
 };
 
-export const PostsLoader = async ({ request, params }) => {
-  const query = request.url.split('?')[1];
+export const PostsLoader = async ({ request }) => {
+  const query = request.url.split('?')[1] || '';
 
-  const postPromise = apiRequest('/posts?' + query);
-
-  return { postResponse: postPromise };
+  try {
+    const postResponse = await apiRequest.get('/posts?' + query);
+    return { postResponse };
+  } catch (error) {
+    console.error('Posts loader error:', error);
+    return { postResponse: { data: [] } };
+  }
 };
 
 export const profilePageLoader = async () => {
-  const token = useTokenStore.getState().token;
+  const token = getStoredToken(); // <-- შეიცვალა
 
   if (!token) {
     return {
@@ -34,8 +36,8 @@ export const profilePageLoader = async () => {
 
   try {
     const [postResult, chatResult] = await Promise.all([
-      apiRequest('/users/profilePosts'),
-      apiRequest('/chats'),
+      apiRequest.get('/users/profilePosts'),
+      apiRequest.get('/chats'),
     ]);
 
     return {
@@ -43,12 +45,16 @@ export const profilePageLoader = async () => {
       chatResponse: chatResult,
     };
   } catch (error) {
-    console.error('LOADER ERROR:', error);
+    console.error('Profile loader error:', error);
 
     if (error.response?.status === 401) {
-      useTokenStore.getState().clearToken();
+      localStorage.removeItem('auth-token');
+      window.location.href = '/login';
     }
 
-    throw error;
+    return {
+      postResponse: { data: { userPosts: [], savedPosts: [] } },
+      chatResponse: { data: [] },
+    };
   }
 };

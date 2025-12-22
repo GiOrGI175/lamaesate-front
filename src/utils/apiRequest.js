@@ -1,16 +1,14 @@
 import axios from 'axios';
-import { useTokenStore } from '../lib/tokenStore';
+import { getStoredToken } from '../lib/tokenStore';
 
 const apiRequest = axios.create({
   baseURL: 'https://lamaesate-back.onrender.com/api/',
-  // baseURL: 'http://localhost:8800/api/',
-
-  // withCredentials: true,
+  // baseURL: 'http://localhost:8800/api/',  withCredentials: true,
 });
 
 apiRequest.interceptors.request.use(
   (config) => {
-    const token = useTokenStore.getState().token;
+    const token = getStoredToken(); // <-- შეიცვალა
 
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
