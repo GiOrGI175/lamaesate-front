@@ -17,6 +17,8 @@ import {
   profilePageLoader,
   singlePageLoader,
 } from './utils/loader';
+import 'leaflet/dist/leaflet.css';
+import './utils/leafletIcon';
 
 function App() {
   const router = createBrowserRouter([
