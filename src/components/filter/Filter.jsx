@@ -1,17 +1,17 @@
 import { useSearchParams } from 'react-router-dom';
 import './filter.scss';
 import { useState } from 'react';
-import { animate, motion } from 'framer-motion';
+import { motion } from 'framer-motion';
 
 const Filter = () => {
-  const [searchParams, setSerchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const [query, setQuery] = useState({
     type: searchParams.get('type') || '',
     city: searchParams.get('city') || '',
-    property: searchParams.get('Property') || '',
-    minPrice: searchParams.get('minPrice') || 0,
-    maxPrice: searchParams.get('maxPrice') || 1000000,
-    bedroom: searchParams.get('bedroom') || 1,
+    property: searchParams.get('property') || '', // ✅ პატარა 'p'
+    minPrice: searchParams.get('minPrice') || '',
+    maxPrice: searchParams.get('maxPrice') || '',
+    bedroom: searchParams.get('bedroom') || '',
   });
 
   const handleChange = (e) => {
@@ -22,7 +22,11 @@ const Filter = () => {
   };
 
   const handleFilter = () => {
-    setSerchParams(query);
+    // ✅ ვშლით ცარიელ მნიშვნელობებს
+    const filteredQuery = Object.fromEntries(
+      Object.entries(query).filter(([_, value]) => value !== '')
+    );
+    setSearchParams(filteredQuery);
   };
 
   return (
@@ -33,7 +37,7 @@ const Filter = () => {
       className='filter'
     >
       <h1>
-        Search reults for <b>{searchParams.get('city')}</b>
+        Search results for <b>{searchParams.get('city') || 'All Cities'}</b>
       </h1>
       <div className='top'>
         <div className='item'>
@@ -51,7 +55,7 @@ const Filter = () => {
 
       <div className='bottom'>
         <div className='item'>
-          <label htmlFor='type'>type</label>
+          <label htmlFor='type'>Type</label>
           <select
             name='type'
             id='type'
@@ -72,10 +76,9 @@ const Filter = () => {
             defaultValue={query.property}
           >
             <option value=''>any</option>
-            <option value='apartament'>Apartament</option>
+            <option value='apartment'>Apartment</option> {/* ✅ 2 't' */}
             <option value='house'>House</option>
             <option value='condo'>Condo</option>
-            <option value='land'>land</option>
           </select>
         </div>
         <div className='item'>
@@ -101,8 +104,15 @@ const Filter = () => {
           />
         </div>
         <div className='item'>
-          <label htmlFor='bedroom'>bedroom</label>
-          <input type='text' id='bedroom' name='bedroom' placeholder='any' />
+          <label htmlFor='bedroom'>Bedroom</label>
+          <input
+            type='number'
+            id='bedroom'
+            name='bedroom'
+            placeholder='any'
+            onChange={handleChange}
+            defaultValue={query.bedroom}
+          />
         </div>
         <button onClick={handleFilter}>
           <img src='/search.png' alt='search' />
