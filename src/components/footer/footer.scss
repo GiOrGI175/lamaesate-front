@@ -1,0 +1,50 @@
+.footerContainer {
+  display: flex;
+  padding: 100px 10px;
+  background-color: #fcf5f3;
+
+  .logoContainer {
+    flex: 1;
+    height: 100px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    .logo {
+      font-weight: bold;
+      font-size: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: black;
+      display: flex;
+      align-items: center;
+      img {
+        width: 50px;
+        height: auto;
+      }
+    }
+
+    span {
+      max-width: 500px;
+      width: 100%;
+      margin-top: 20px;
+    }
+  }
+  .linksContainer {
+    flex: 1;
+
+    display: flex;
+    justify-content: space-between;
+    .footerCol {
+      h4 {
+        margin-bottom: 20px;
+      }
+      ul {
+        li {
+          list-style: none;
+          margin-bottom: 10px;
+        }
+      }
+    }
+  }
+}

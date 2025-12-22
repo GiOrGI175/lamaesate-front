@@ -8,6 +8,8 @@ import { motion } from 'framer-motion';
 import Achievements from '../../components/achievements/Achievements';
 import Properties from '../../components/properties/Properties';
 import { useLoaderData } from 'react-router-dom';
+import About from '../../components/about/About';
+import Contact from '../../components/contact/Contact';
 
 export const HomePage = () => {
   const { postResponse } = useLoaderData();
@@ -107,6 +109,8 @@ export const HomePage = () => {
       </main>
       <Achievements />
       <Properties postResponse={postResponse} />
+      <About />
+      <Contact />
     </div>
   );
 };
