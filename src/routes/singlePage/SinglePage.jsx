@@ -1,26 +1,27 @@
 import Slider from '../../components/slider/Slider';
-import { singlePostData, userData } from '../../lib/dummydata';
 import './singlePage.scss';
 import Map from '../../components/map/Map';
-import { redirect, useLoaderData, useNavigate } from 'react-router-dom';
+import { useLoaderData, useNavigate } from 'react-router-dom';
 import { useContext, useState } from 'react';
 import { AuthContext } from '../../context/AuthContext';
 import apiRequest from '../../utils/apiRequest';
 
 const SinglePage = () => {
   const post = useLoaderData();
-  console.log(post);
   const [saved, setSaved] = useState(post.isSaved);
   const { curentUser } = useContext(AuthContext);
   const navigate = useNavigate();
 
-  console.log(curentUser, 'currentUser');
+  console.log('Single page post:', post);
 
   const handleSave = async () => {
     if (!curentUser) {
       navigate('/login');
+      return;
     }
+
     setSaved((prev) => !prev);
+
     try {
       await apiRequest.post('/users/save', { postId: post.id });
     } catch (err) {
@@ -32,6 +33,7 @@ const SinglePage = () => {
   const handleMessage = async () => {
     if (!curentUser) {
       navigate('/login');
+      return;
     }
 
     try {
@@ -81,14 +83,14 @@ const SinglePage = () => {
               <img src='/pet.png' alt='pet' />
               <div className='featureText'>
                 <span>Pet Policy</span>
-                <p>{post.postDetails.income}</p>
+                <p>{post.postDetails.pet}</p>
               </div>
             </div>
             <div className='feature'>
               <img src='/fee.png' alt='fee' />
               <div className='featureText'>
-                <span>Property Fees</span>
-                <p>Must have 3x the rent in total household income</p>
+                <span>Income Policy</span>
+                <p>{post.postDetails.income}</p>
               </div>
             </div>
           </div>
@@ -117,17 +119,17 @@ const SinglePage = () => {
               </div>
             </div>
             <div className='feature'>
-              <img src='/pet.png' alt='pet icon' />
+              <img src='/bus.png' alt='bus icon' />
               <div className='featureText'>
                 <span>Bus Stop</span>
                 <p>{post.postDetails.bus}m away</p>
               </div>
             </div>
             <div className='feature'>
-              <img src='/fee.png' alt='fee icon' />
+              <img src='/restaurant.png' alt='restaurant icon' />
               <div className='featureText'>
                 <span>Restaurant</span>
-                <p>{post.postDetails.Restaurant}m away</p>
+                <p>{post.postDetails.restaurant}m away</p>
               </div>
             </div>
           </div>

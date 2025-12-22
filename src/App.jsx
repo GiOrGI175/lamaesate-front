@@ -17,27 +17,56 @@ import {
   profilePageLoader,
   singlePageLoader,
 } from './utils/loader';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import {
+  listPageLoader,
+  PostsLoader,
+  profilePageLoader,
+  singlePageLoader,
+} from './utils/loader';
+
+const ErrorBoundary = () => {
+  return <div>Something went wrong. Please try again.</div>;
+};
 
 function App() {
   const router = createBrowserRouter([
     {
       path: '/',
       element: <Layout />,
+      errorElement: <ErrorBoundary />,
       children: [
-        { index: true, element: <HomePage />, loader: PostsLoader },
-        { path: 'list', element: <ListPage />, loader: listPageLoader },
-        { path: ':id', element: <SinglePage />, loader: singlePageLoader },
+        {
+          index: true,
+          element: <HomePage />,
+          loader: PostsLoader,
+          errorElement: <ErrorBoundary />,
+        },
+        {
+          path: 'list',
+          element: <ListPage />,
+          loader: listPageLoader,
+          errorElement: <ErrorBoundary />,
+        },
+        {
+          path: ':id',
+          element: <SinglePage />,
+          loader: singlePageLoader,
+          errorElement: <ErrorBoundary />,
+        },
         { path: 'login', element: <Login /> },
         { path: 'register', element: <Register /> },
       ],
     },
     {
       element: <RequireAuth />,
+      errorElement: <ErrorBoundary />,
       children: [
         {
           path: '/profile',
           element: <ProfilePage />,
           loader: profilePageLoader,
+          errorElement: <ErrorBoundary />,
         },
         { path: '/profile/update', element: <ProfileUpdatePage /> },
         { path: '/add', element: <NewPostPage /> },

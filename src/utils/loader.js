@@ -2,30 +2,43 @@ import apiRequest from './apiRequest';
 import { getStoredToken } from '../lib/tokenStore';
 
 export const singlePageLoader = async ({ params }) => {
-  const res = await apiRequest.get('/posts/' + params.id);
-  return res.data;
+  try {
+    const res = await apiRequest.get('/posts/' + params.id);
+    return res.data; // დაბრუნდება post object
+  } catch (error) {
+    console.error('Single page loader error:', error);
+    throw error;
+  }
 };
 
 export const listPageLoader = async ({ request }) => {
   const query = request.url.split('?')[1] || '';
-  const postResponse = await apiRequest.get('/posts?' + query);
-  return { postResponse };
+
+  try {
+    const res = await apiRequest.get('/posts?' + query);
+    // დაბრუნდება Promise რომელიც resolve-დება axios response-ით
+    return { postResponse: res }; // არა res.data!
+  } catch (error) {
+    console.error('List page loader error:', error);
+    return { postResponse: { data: [] } };
+  }
 };
 
 export const PostsLoader = async ({ request }) => {
   const query = request.url.split('?')[1] || '';
 
   try {
-    const postResponse = await apiRequest.get('/posts?' + query);
-    return { postResponse };
+    const res = await apiRequest.get('/posts?' + query);
+    // HomePage-ისთვის უშუალოდ data-ს დააბრუნებს
+    return { postResponse: res.data };
   } catch (error) {
     console.error('Posts loader error:', error);
-    return { postResponse: { data: [] } };
+    return { postResponse: [] };
   }
 };
 
 export const profilePageLoader = async () => {
-  const token = getStoredToken(); // <-- შეიცვალა
+  const token = getStoredToken();
 
   if (!token) {
     return {
@@ -35,14 +48,13 @@ export const profilePageLoader = async () => {
   }
 
   try {
-    const [postResult, chatResult] = await Promise.all([
-      apiRequest.get('/users/profilePosts'),
-      apiRequest.get('/chats'),
-    ]);
+    // აბრუნებს Promise-ებს, არა resolved data-ს
+    const postPromise = apiRequest.get('/users/profilePosts');
+    const chatPromise = apiRequest.get('/chats');
 
     return {
-      postResponse: postResult,
-      chatResponse: chatResult,
+      postResponse: postPromise, // Promise
+      chatResponse: chatPromise, // Promise
     };
   } catch (error) {
     console.error('Profile loader error:', error);
