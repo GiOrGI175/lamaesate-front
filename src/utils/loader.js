@@ -1,72 +1,45 @@
 import apiRequest from './apiRequest';
-import { getStoredToken } from '../lib/tokenStore';
 
-export const singlePageLoader = async ({ params }) => {
-  try {
-    const res = await apiRequest.get('/posts/' + params.id);
-    return res.data; // დაბრუნდება post object
-  } catch (error) {
-    console.error('Single page loader error:', error);
-    throw error;
-  }
+export const singlePageLoader = async ({ request, params }) => {
+  const res = await apiRequest('/posts/' + params.id);
+
+  return res.data;
 };
 
-export const listPageLoader = async ({ request }) => {
-  const query = request.url.split('?')[1] || '';
+export const listPageLoader = async ({ request, params }) => {
+  const query = request.url.split('?')[1];
 
-  try {
-    const res = await apiRequest.get('/posts?' + query);
-    // დაბრუნდება Promise რომელიც resolve-დება axios response-ით
-    return { postResponse: res }; // არა res.data!
-  } catch (error) {
-    console.error('List page loader error:', error);
-    return { postResponse: { data: [] } };
-  }
+  const postPromise = apiRequest('/posts?' + query);
+
+  return { postResponse: postPromise };
 };
 
-export const PostsLoader = async ({ request }) => {
-  const query = request.url.split('?')[1] || '';
+export const PostsLoader = async ({ request, params }) => {
+  const query = request.url.split('?')[1];
 
-  try {
-    const res = await apiRequest.get('/posts?' + query);
-    // HomePage-ისთვის უშუალოდ data-ს დააბრუნებს
-    return { postResponse: res.data };
-  } catch (error) {
-    console.error('Posts loader error:', error);
-    return { postResponse: [] };
-  }
+  const postPromise = apiRequest('/posts?' + query);
+
+  return { postResponse: postPromise };
 };
 
 export const profilePageLoader = async () => {
-  const token = getStoredToken();
-
-  if (!token) {
-    return {
-      postResponse: { data: { userPosts: [], savedPosts: [] } },
-      chatResponse: { data: [] },
-    };
-  }
+  const postPromise = apiRequest('/users/profilePosts');
+  const chatPromise = apiRequest('/chats');
 
   try {
-    // აბრუნებს Promise-ებს, არა resolved data-ს
-    const postPromise = apiRequest.get('/users/profilePosts');
-    const chatPromise = apiRequest.get('/chats');
+    const postResult = await postPromise;
+    const chatResult = await chatPromise;
 
-    return {
-      postResponse: postPromise, // Promise
-      chatResponse: chatPromise, // Promise
-    };
+    console.log('POST RESULT:', postResult);
+    console.log('POST DATA:', postResult.data);
+    console.log('CHAT RESULT:', chatResult);
+    console.log('CHAT DATA:', chatResult.data);
   } catch (error) {
-    console.error('Profile loader error:', error);
-
-    if (error.response?.status === 401) {
-      localStorage.removeItem('auth-token');
-      window.location.href = '/login';
-    }
-
-    return {
-      postResponse: { data: { userPosts: [], savedPosts: [] } },
-      chatResponse: { data: [] },
-    };
+    console.error('LOADER ERROR:', error);
   }
+
+  return {
+    postResponse: postPromise,
+    chatResponse: chatPromise,
+  };
 };
