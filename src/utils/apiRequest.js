@@ -5,7 +5,7 @@ const apiRequest = axios.create({
   baseURL: 'https://lamaesate-back.onrender.com/api/',
   // baseURL: 'http://localhost:8800/api/',
 
-  withCredentials: true,
+  // withCredentials: true,
 });
 
 apiRequest.interceptors.request.use((config) => {
